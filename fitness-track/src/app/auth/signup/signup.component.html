@@ -1,6 +1,10 @@
 <section class="signup-form">
   <!-- this form is using the @angular/flex-layout package & directives -->
-  <form fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="onSignup(f)" #f="ngForm">
+  <form fxLayout="column" 
+        fxLayoutAlign="center center" 
+        (ngSubmit)="onSignup(f)" 
+        #f="ngForm"
+        fxLayoutGap="10px">
     <mat-form-field>
       <input type="email"
              matInput 
@@ -20,7 +24,7 @@
               placeholder="password" 
               ngModel 
               name="password"
-              reqiored
+              required
               minlength="6"
               #pwInput="ngModel">
       <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
@@ -29,12 +33,22 @@
     <mat-form-field>
       <input matInput
              placeholder="Date of Birth"
-             [matDatepicker]="picker">
+             [matDatepicker]="picker"
+             [max]="maxDate"
+             ngModel
+             name="birthdate"
+             required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker> 
     </mat-form-field>
 
+    <mat-checkbox ngModel name="agreed" color="primary" required>
+      I agree to Terms & Conditions
+    </mat-checkbox>
+
     <br>
-    <button type="submit" mat-raised-button color="primary">Submit</button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">
+      Submit
+    </button>
   </form>
 </section>
