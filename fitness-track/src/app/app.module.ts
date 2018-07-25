@@ -15,6 +15,9 @@ import { CurrentTrainingComponent } from './training/current-training/current-tr
 import { NewTrainingComponent } from './training/new-training/new-training.component';
 import { PastTrainingsComponent } from './training/past-trainings/past-trainings.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { HeaderComponent } from './nav/header/header.component';
+import { SidenavComponent } from './nav/sidenav/sidenav.component';
+import { StopDiagComponent } from './training/current-training/stop-diag.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { WelcomeComponent } from './welcome/welcome.component';
     CurrentTrainingComponent,
     NewTrainingComponent,
     PastTrainingsComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    HeaderComponent,
+    SidenavComponent,
+    StopDiagComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +42,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
     FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // use entryComponents when NEITHER used with a selector in a template NOR by routing
+  entryComponents: [StopDiagComponent],
 })
 export class AppModule { }

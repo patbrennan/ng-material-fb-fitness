@@ -1,3 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 /* NOTE: the ~ at the beginning that was originally there was removed to eliminate a bug */
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  padding-top: 30px;
+}
