@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="toggleSideNav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+
+  <div>
+    <a routerLink="/">LOGO</a>
+  </div>
+<!-- to push links to right, could also not use directives below & add a div w/fxFlex -->
+<!-- directive between LOGO & link list -->
+  <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
+    <ul fxLayout fxLayoutGap="10px" class="nav-items">
+      <li>
+        <a routerLink="/signup">Signup</a>
+      </li>
+      <li>
+        <a routerLink="/login">Login</a>
+      </li>
+      <li>
+        <a routerLink="/training">Train</a>
+      </li>
+      <li>
+        <a >Logout</a>
+      </li>
+    </ul>
+  </div>
+</mat-toolbar>
