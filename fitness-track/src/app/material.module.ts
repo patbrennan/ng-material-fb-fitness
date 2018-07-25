@@ -13,7 +13,6 @@ import {
   MatListModule,
   MatTabsModule,
   MatCardModule,
-  MatCard,
   MatSelectModule,
   MatProgressSpinnerModule,
   MatDialogModule
