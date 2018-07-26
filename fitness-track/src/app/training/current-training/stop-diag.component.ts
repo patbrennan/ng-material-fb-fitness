@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 
 
 @Component({
-  selector: 'stop-training-diag',
+  selector: 'app-stop-training',
   template: `<h2 mat-dialog-title>Are you sure?</h2>
 
              <mat-dialog-content>

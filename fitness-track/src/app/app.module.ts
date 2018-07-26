@@ -19,6 +19,9 @@ import { HeaderComponent } from './nav/header/header.component';
 import { SidenavComponent } from './nav/sidenav/sidenav.component';
 import { StopDiagComponent } from './training/current-training/stop-diag.component';
 
+import { AuthService } from './auth/auth.service';
+import { TrainingService } from './training/training.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,10 @@ import { StopDiagComponent } from './training/current-training/stop-diag.compone
     FlexLayoutModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    TrainingService,
+  ],
   bootstrap: [AppComponent],
   // use entryComponents when NEITHER used with a selector in a template NOR by routing
   entryComponents: [StopDiagComponent],

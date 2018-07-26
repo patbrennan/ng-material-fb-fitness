@@ -1,6 +1,6 @@
-<mat-tab-group *ngIf="!trainingInProgress">
+<mat-tab-group *ngIf="!workoutInProgress">
   <mat-tab label="New Excercise">
-    <app-new-training (trainingStarted)="trainingInProgress = true"></app-new-training>
+    <app-new-training></app-new-training>
   </mat-tab>
 
   <mat-tab label="History">
@@ -8,6 +8,5 @@
   </mat-tab>
 </mat-tab-group>
 
-<app-current-training *ngIf="trainingInProgress" (trainingExit)="trainingInProgress =false">
-
+<app-current-training *ngIf="workoutInProgress">
 </app-current-training>
