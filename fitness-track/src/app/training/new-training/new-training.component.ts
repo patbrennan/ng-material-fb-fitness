@@ -24,7 +24,7 @@ export class NewTrainingComponent implements OnInit {
     // valueChanges gives Obs, but only gives us data; no metadata
     this.workouts = this.db
       .collection('availableWorkouts')
-      .snapshotChanges()
+      .snapshotChanges() // get full metadata
       .pipe(
         map(docArray => {
           return docArray.map(doc => {
