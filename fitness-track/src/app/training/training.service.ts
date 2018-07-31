@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { map } from 'rxjs/operators';
 
 import { Exercise } from './exercise.model';
 
@@ -8,19 +10,31 @@ import { Exercise } from './exercise.model';
 })
 export class TrainingService {
   workoutChanged = new Subject<Exercise>();
-  private workouts: Exercise[] = [
-    { id: 'crunches', name: 'Crunches', duration: 30, calories: 8 },
-    { id: 'jump-rope', name: 'Jump Rope', duration: 180, calories: 25 },
-    { id: 'side-lunges', name: 'Side Lunges', duration: 120, calories: 15 },
-    { id: 'burpees', name: 'Burpees', duration: 60, calories: 30 },
-  ];
+  workoutsChanged = new Subject<Exercise[]>();
+  private workouts: Exercise[] = [];
   private runningExercise: Exercise;
   private exercises: Exercise[] = [];
 
-  constructor() { }
+  constructor(private db: AngularFirestore) { }
 
-  getWorkouts() {
-    return [...this.workouts];
+  fetchWorkouts() {
+    // valueChanges gives Obs, but only gives us data; no metadata - snapshotChanges gives all
+    this.db.collection('availableWorkouts')
+      .snapshotChanges() // get full metadata
+      .pipe(
+        map(docArray => {
+          return docArray.map(doc => {
+            return {
+              id: doc.payload.doc.id,
+              ...doc.payload.doc.data() // use rest of the object's properties
+            };
+          });
+        })
+      )
+      .subscribe((workouts: Exercise[]) => {
+        this.workouts = workouts;
+        this.workoutsChanged.next([...this.workouts]); // emit event
+      });
   }
 
   startExercise(selectedId: string) {
