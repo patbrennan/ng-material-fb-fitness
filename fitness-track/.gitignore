@@ -39,4 +39,8 @@ testem.log
 Thumbs.db
 
 # environment variables
+<<<<<<< HEAD
 /src/environments
+=======
+/environments
+>>>>>>> 8db89cbbd9da9c4d8c9ccf6e08a373a2839c575d
