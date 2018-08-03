@@ -27,6 +27,20 @@
                 required>
       </mat-form-field>
   
-      <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Login</button>
+      <button type="submit" 
+              mat-raised-button 
+              color="primary" 
+              [disabled]="f.invalid"
+              *ngIf="!isLoading">
+        Login
+      </button>
+      <button *ngIf="isLoading"
+              mat-raised-button
+              disabled>
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+          Loading...
+          <mat-spinner diameter="20"></mat-spinner>
+        </div>
+      </button>
     </form>
   </section>

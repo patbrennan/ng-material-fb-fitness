@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { TrainingService } from '../training.service';
 import { Exercise } from '../exercise.model';
+import { UIService } from '../../shared/ui.service';
 
 @Component({
   selector: 'app-new-training',
@@ -11,25 +12,39 @@ import { Exercise } from '../exercise.model';
   styleUrls: ['./new-training.component.css']
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
+  isLoading = false;
   workouts: Exercise[]; // data we get back doesn't have ID so must be type any
   trainingInProgress = false;
   workoutSubscription: Subscription;
+  private loadingSubscription: Subscription;
 
-  constructor(private trainingService: TrainingService) { }
+  constructor(private trainingService: TrainingService,
+              private uiService: UIService) { }
 
   ngOnInit() {
-    this.workoutSubscription = this.trainingService.workoutsChanged.subscribe(
-      workouts => (this.workouts = workouts)
+    this.loadingSubscription = this.uiService.loadingStateChanged.subscribe(
+      isLoading => this.isLoading = isLoading
     );
-    this.trainingService.fetchWorkouts();
+    this.workoutSubscription = this.trainingService.workoutsChanged.subscribe(
+      workouts => this.workouts = workouts
+    );
+    this.fetchWorkouts();
   }
 
   ngOnDestroy() {
-    this.workoutSubscription.unsubscribe();
+    if (this.workoutSubscription) {
+      this.workoutSubscription.unsubscribe();
+    }
+    if (this.loadingSubscription) {
+      this.loadingSubscription.unsubscribe();
+    }
   }
 
   startTraining(form: NgForm) {
     this.trainingService.startExercise(form.value.workout);
   }
 
+  fetchWorkouts() {
+    this.trainingService.fetchWorkouts();
+  }
 }

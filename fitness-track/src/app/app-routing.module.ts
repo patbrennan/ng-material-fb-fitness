@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { LoginComponent } from './auth/login/login.component';
-import { TrainingComponent } from './training/training.component';
 
 import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },
+  // lazy load training: loadChildren: path/to/module#ClassNameModule; will lazy-load
+  // anything we import in training module
+  {
+    path: 'training',
+    loadChildren: './training/training.module#TrainingModule',
+    canLoad: [AuthGuard] // must modify AuthGuard file appropriately
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
   // don't forget to provide this here - a rare exception to being provided in app.module:
-  providers: [AuthGuard]
+  providers: [AuthGuard] // leave here to keep as singleton service
 })
 export class AppRoutingModule {}

@@ -4,6 +4,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { map } from 'rxjs/operators';
 
 import { Exercise } from './exercise.model';
+import { UIService } from '../shared/ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,11 @@ export class TrainingService {
   private runningExercise: Exercise;
   private fbSubs: Subscription[] = [];
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore,
+              private uiService: UIService) { }
 
   fetchWorkouts() {
+    this.uiService.loadingStateChanged.next(true);
     // valueChanges gives Obs, but only gives us data; no metadata - snapshotChanges gives all
     this.fbSubs.push( this.db.collection('availableWorkouts')
       .snapshotChanges() // get full metadata
@@ -35,6 +38,11 @@ export class TrainingService {
       .subscribe((workouts: Exercise[]) => { // can also take second function as arg w/error as arg for error handling
         this.workouts = workouts;
         this.workoutsChanged.next([...this.workouts]); // emit event
+        this.uiService.loadingStateChanged.next(false);
+      }, error => {
+        this.uiService.loadingStateChanged.next(false);
+        this.uiService.showSnackbar('Failed to Fetch Exercises. Try again Later', null, 3000);
+        this.workoutsChanged.next(null); //
       })
     );
   }

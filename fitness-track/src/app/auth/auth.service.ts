@@ -5,6 +5,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { AuthData } from './auth-data.model';
 import { TrainingService } from '../training/training.service';
+import { UIService } from '../shared/ui.service';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,8 @@ export class AuthService {
 
   constructor(private router: Router,
               private afAuth: AngularFireAuth,
-              private trainingService: TrainingService) {}
+              private trainingService: TrainingService,
+              private uiService: UIService) {}
 
   initAuthListener() {
     this.afAuth.authState.subscribe(user => {
@@ -22,7 +24,8 @@ export class AuthService {
         this.authChanged.next(true);
         this.router.navigate(['/training']);
       } else {
-        this.trainingService.cancelFbSubscriptions(); // do before calling to backend to prevent errors
+        // do before calling to backend to prevent errors
+        this.trainingService.cancelFbSubscriptions();
         this.isAuthenticated = false;
         this.authChanged.next(false);
         this.router.navigate(['/login']);
@@ -31,22 +34,28 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true);
+
     this.afAuth.auth.createUserWithEmailAndPassword(authData.email, authData.password)
       .then(result => {
-        console.log(result);
+        this.uiService.loadingStateChanged.next(false);
       })
       .catch(error => {
-        console.log(error);
+        this.uiService.loadingStateChanged.next(false);
+        this.uiService.showSnackbar(error.message, null, 3000);
       });
   }
 
   login(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true); // for mat-spinner start
+
     this.afAuth.auth.signInWithEmailAndPassword(authData.email, authData.password)
       .then(result => {
-        console.log(result);
+        this.uiService.loadingStateChanged.next(false);
       })
       .catch(error => {
-        console.log(error);
+        this.uiService.loadingStateChanged.next(false);
+        this.uiService.showSnackbar(error.message, null, 3000);
       });
   }
 

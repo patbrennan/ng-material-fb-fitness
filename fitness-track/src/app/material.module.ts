@@ -18,7 +18,8 @@ import {
   MatDialogModule,
   MatTableModule,
   MatSortModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 // used to manage all material imports / exports for component management
@@ -43,6 +44,7 @@ import {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatButtonModule,
@@ -63,6 +65,7 @@ import {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSnackBarModule,
   ]
 })
 export class MaterialModule {
