@@ -49,7 +49,7 @@ Pure flexbox example for reference:
 }
 ```
 
-
+Install ngrx: `npm install --save @ngrx/store`
 
 
 

@@ -5,6 +5,9 @@ import { map } from 'rxjs/operators';
 
 import { Exercise } from './exercise.model';
 import { UIService } from '../shared/ui.service';
+import { Store } from '../../../node_modules/@ngrx/store';
+import * as fromRoot from '../app.reducer';
+import * as UI from '../shared/ui.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +21,13 @@ export class TrainingService {
   private fbSubs: Subscription[] = [];
 
   constructor(private db: AngularFirestore,
-              private uiService: UIService) { }
+              private uiService: UIService,
+              private store: Store<fromRoot.State>) { }
 
   fetchWorkouts() {
-    this.uiService.loadingStateChanged.next(true);
+    // this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch(new UI.StartLoading());
+
     // valueChanges gives Obs, but only gives us data; no metadata - snapshotChanges gives all
     this.fbSubs.push( this.db.collection('availableWorkouts')
       .snapshotChanges() // get full metadata
@@ -38,9 +44,11 @@ export class TrainingService {
       .subscribe((workouts: Exercise[]) => { // can also take second function as arg w/error as arg for error handling
         this.workouts = workouts;
         this.workoutsChanged.next([...this.workouts]); // emit event
-        this.uiService.loadingStateChanged.next(false);
+        // this.uiService.loadingStateChanged.next(false);
+        this.store.dispatch(new UI.StopLoading());
       }, error => {
-        this.uiService.loadingStateChanged.next(false);
+        // this.uiService.loadingStateChanged.next(false);
+        this.store.dispatch(new UI.StopLoading());
         this.uiService.showSnackbar('Failed to Fetch Exercises. Try again Later', null, 3000);
         this.workoutsChanged.next(null); //
       })

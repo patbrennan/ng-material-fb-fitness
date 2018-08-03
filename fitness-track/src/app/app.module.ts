@@ -8,6 +8,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
+import { StoreModule } from '@ngrx/store';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { SidenavComponent } from './nav/sidenav/sidenav.component';
 import { AuthService } from './auth/auth.service';
 import { TrainingService } from './training/training.service';
 import { UIService } from './shared/ui.service';
+import { reducers } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { UIService } from './shared/ui.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AuthModule,
+    StoreModule.forRoot(reducers),
   ],
   providers: [
     AuthService,

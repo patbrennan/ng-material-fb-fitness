@@ -51,10 +51,10 @@
               mat-raised-button 
               color="primary" 
               [disabled]="f.invalid"
-              *ngIf="!isLoading">
+              *ngIf="!(isLoading$ | async)">
         Submit
       </button>
-      <button *ngIf="isLoading"
+      <button *ngIf="isLoading$ | async"
               mat-raised-button
               disabled>
         <div fxLayout="row" fxLayoutAlign="space-around center">
