@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '../auth.service';
-import { UIService } from '../../shared/ui.service';
 import * as fromRoot from '../../app.reducer';
 
 @Component({
@@ -17,7 +16,6 @@ export class LoginComponent implements OnInit {
   // private loadingSubscription: Subscription;
 
   constructor(private authService: AuthService,
-              private uiService: UIService,
               private store: Store<fromRoot.State>) { }
 
   ngOnInit() {

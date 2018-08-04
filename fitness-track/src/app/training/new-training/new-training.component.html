@@ -4,9 +4,9 @@
       <mat-card-title fxLayoutAlign="center">Start a New Workout</mat-card-title>
   
       <mat-card-content fxLayoutAlign="center">
-        <mat-form-field *ngIf="!(isLoading$ | async) && workouts">
+        <mat-form-field *ngIf="!(isLoading$ | async) && (workouts$ | async)">
           <mat-select placeholder="Select Workout" ngModel name="workout" required>
-            <mat-option *ngFor="let workout of workouts" value="{{workout.id}}">
+            <mat-option *ngFor="let workout of (workouts$ | async)" value="{{workout.id}}">
               {{ workout.name }}: {{ workout.duration }}s
             </mat-option>
           </mat-select>
@@ -20,14 +20,14 @@
         <button type="submit" 
                 mat-button color="accent" 
                 [disabled]="f.invalid" 
-                *ngIf="workouts">
+                *ngIf="workouts$ | async">
           Start!
         </button>
         <!-- show button below if workouts weren't fetched -->
         <button (click)="fetchWorkouts()"
                 type="button"
                 mat-button color="accent" 
-                *ngIf="!workouts && !(isLoading$ | async)">
+                *ngIf="!(workouts$ | async) && !(isLoading$ | async)">
           Fetch Again
         </button>
       </mat-card-actions>
